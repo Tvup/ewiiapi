@@ -158,7 +158,7 @@ class EwiiApiBase
             }
             return $this->client->request($verb, $url, $options);
         } else {
-            return $this->client->request($verb, $url, $this->debug ? ['debug' => true] : null);
+            return $this->client->request($verb, $url, $this->debug ? ['debug' => true] : []);
         }
     }
 
