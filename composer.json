@@ -1,6 +1,7 @@
 {
     "name": "tvup/ewiiapi",
     "description": "API for getting consumption data as an Ewii customer",
+    "license": "MIT",
     "type": "library",
     "require": {
         "php": ">=7.1",
