@@ -92,7 +92,6 @@ class EwiiApiBase
                     return [];
                 }
             } catch (ClientException $e) {
-                var_dump($e->getCode(), $e->getMessage());
                 $exceptionBody = $e->getResponse()->getBody()->getContents();
                 $decodedExceptionBody = json_decode($exceptionBody, true);
                 $messages = [
@@ -123,7 +122,6 @@ class EwiiApiBase
                 }
             }
         } catch (TransferException $e) {
-            var_dump($e->getCode(), $e->getMessage());
             $messages = [
                 'Verb' => $verb,
                 'Endpoint' => $endpoint,
