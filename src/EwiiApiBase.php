@@ -33,16 +33,17 @@ class EwiiApiBase
     public function __construct()
     {
         $jar = null;
-        try {
-            $jar = $this->getCookieJarFromFile();
-        } catch (ErrorException $e) {
-            //NOP
-        }
 
         if (function_exists('storage_path')) {
             $this->storage_path = storage_path();
         } else {
             $this->storage_path = dirname(__DIR__);
+        }
+
+        try {
+            $jar = $this->getCookieJarFromFile();
+        } catch (ErrorException $e) {
+            //NOP
         }
 
         $jar = $jar ?: new FileCookieJar($this->storage_path . '/' . self::COOKIE_FILENAME, true);
