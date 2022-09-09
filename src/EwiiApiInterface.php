@@ -8,5 +8,5 @@ interface EwiiApiInterface
 
     public function getAddressData();
 
-    public function getConsumptionData(string $fileType, string $installationNumber, int $consumerNumber, int $meterId, int $counterId, int $type, int $utility, string $unit, string $factoryNumber) : array;
+    public function getConsumptionData(string $fileType, array $parameters) : array;
 }

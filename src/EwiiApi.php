@@ -19,21 +19,39 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
     }
 
     public function getAddressData() {
-        return $this->makeErrorHandledRequest('POST', 'api/', 'product/GetAddressPickerViewModel', null, null);
+        $json = $this->makeErrorHandledRequest('POST', 'api/', 'product/GetAddressPickerViewModel', null, null, true);
+        $json = json_decode($json, true);
+        $installationNumber = $json['Elements'][0]['Installations'][0]['InstallationNumber'];
+        $consumerNumber = $json['Elements'][0]['Installations'][0]['ConsumerNumber'];
+        return ['installationNumber' => $installationNumber, 'consumerNumber' => $consumerNumber];
     }
 
-    public function getConsumptionData(string $fileType, string $installationNumber, int $consumerNumber, int $meterId, int $counterId, int $type, int $utility, string $unit, string $factoryNumber):array
-    {
-        $data = $this->makeErrorHandledRequest('GET', 'api/', 'consumption/csv', [
+    public function getConsumptionMeters() {
+        $json = $this->makeErrorHandledRequest('GET', 'api/', 'consumption/meters', ['utility'=>'Electricity'], null, true);
+        $json = json_decode($json, true);
+        $installationNumber = $json[0]['Installation']['InstallationNumber'];
+        $consumerNumber = $json[0]['Installation']['ConsumerNumber'];
+        $meterId = $json[0]['MeterId'];
+        $counterId = $json[0]['CounterId'];
+        $readingType = $json[0]['ReadingType'];
+        $utility = $json[0]['Utility'];
+        $unit = $json[0]['Unit'];
+        $factoryNumber = $json[0]['FactoryNumber'];
+        return [
             'installationNumber' => $installationNumber,
             'consumerNumber' => $consumerNumber,
             'meterId' => $meterId,
             'counterId' => $counterId,
-            'type' => $type,
+            'type' => $readingType,
             'utility' => $utility,
             'unit' => $unit,
             'factoryNumber' => $factoryNumber,
-        ],null, true);
+        ];
+    }
+
+    public function getConsumptionData(string $fileType, array $parameters):array
+    {
+        $data = $this->makeErrorHandledRequest('GET', 'api/', 'consumption/' . $fileType, $parameters,null, true);
 
         $dataArray = explode(PHP_EOL, $data);
 
