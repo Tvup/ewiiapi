@@ -24,6 +24,11 @@ class EwiiApiBase
      */
     private $cachedCookie = false;
 
+    /**
+     * @var string
+     */
+    private $storage_path = '';
+
 
     public function __construct()
     {
