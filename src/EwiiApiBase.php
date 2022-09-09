@@ -1,6 +1,6 @@
 <?php
 
-namespace TorbenIT\EwiiApi;
+namespace Tvup\EwiiApi;
 
 use ErrorException;
 use GuzzleHttp\Client;

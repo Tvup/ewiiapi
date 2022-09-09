@@ -1,5 +1,5 @@
 {
-    "name": "torbenit/ewiiapi",
+    "name": "tvup/ewiiapi",
     "description": "API for getting consumption data as an Ewii customer",
     "type": "library",
     "require": {
@@ -9,7 +9,7 @@
 
     "autoload": {
         "psr-4": {
-            "TorbenIT\\EwiiApi\\": "src/"
+            "Tvup\\EwiiApi\\": "src/"
         }
     },
     "authors": [

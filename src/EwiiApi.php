@@ -1,6 +1,6 @@
 <?php
 
-namespace TorbenIT\EwiiApi;
+namespace Tvup\EwiiApi;
 
 class EwiiApi extends EwiiApiBase implements EwiiApiInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace TorbenIT\EwiiApi;
+namespace Tvup\EwiiApi;
 
 class EwiiApiMock implements EwiiApiInterface
 {
