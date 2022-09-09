@@ -123,6 +123,7 @@ class EwiiApiBase
                 }
             }
         } catch (TransferException $e) {
+            var_dump($e->getCode(), $e->getMessage());
             $messages = [
                 'Verb' => $verb,
                 'Endpoint' => $endpoint,
