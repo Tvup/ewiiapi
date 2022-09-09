@@ -22,13 +22,13 @@ $ewiiApi = new Tvup\EwiiApi\EwiiApi();
 
 $ewiiApi->login('AN_EMAIL_ADDRESS','A_PASSWORD');
 
-$response = $ewiiApi->getAddressPickerViewModel();
+$addressElement = $ewiiApi->getAddressPickerViewModel();
 
-$ewiiApi->setSelectedAddressPickerElement($response);
+$ewiiApi->setSelectedAddressPickerElement($addressElement);
 
-$response = $ewiiApi->getConsumptionMeters();
+$consumptionMeterMetaData = $ewiiApi->getConsumptionMeters();
 
-$response = $ewiiApi->getConsumptionData('csv', $response);
+$response = $ewiiApi->getConsumptionData('csv', $consumptionMeterMetaData);
 
 print_r($response);
 ```
