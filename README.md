@@ -18,10 +18,17 @@ composer require tvup/ewiiapi
 require_once 'vendor/autoload.php';
 
 $ewiiApi = new Tvup\EwiiApi\EwiiApi();
+//$ewiiApi->setDebug(true);
 
 $ewiiApi->login('AN_EMAIL_ADDRESS','A_PASSWORD');
 
-$response = $ewiiApi->getConsumptionData('csv', '5153695', 1, 1, 1, 2, 0, 'KWH', '21517435');
+$response = $ewiiApi->getAddressPickerViewModel();
+
+$ewiiApi->setSelectedAddressPickerElement($response);
+
+$response = $ewiiApi->getConsumptionMeters();
+
+$response = $ewiiApi->getConsumptionData('csv', $response);
 
 print_r($response);
 ```
