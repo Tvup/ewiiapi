@@ -31,10 +31,8 @@ class EwiiApiBase
 
     private bool $debug = false;
 
-
-    public function __construct(bool $debug)
+    public function __construct()
     {
-        $this->debug = $debug ? : false;
         $jar = null;
 
         if (function_exists('storage_path')) {
@@ -194,6 +192,16 @@ class EwiiApiBase
         }
         return $jar;
     }
+
+    /**
+     * @param bool $debug
+     */
+    public function setDebug(bool $debug): void
+    {
+        $this->debug = $debug;
+    }
+
+
 
 
 }

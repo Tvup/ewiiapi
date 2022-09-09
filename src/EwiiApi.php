@@ -5,7 +5,7 @@ namespace Tvup\EwiiApi;
 class EwiiApi extends EwiiApiBase implements EwiiApiInterface
 {
 
-    public function login(string $email, string $password)
+    public function login(string $email, string $password): void
     {
         if('' == $email || '' == $password) {
             throw new EwiiApiException(['Email and password cannot be blank'], [], '1');
@@ -18,14 +18,13 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
         ]);
     }
 
-    public function getAddressPickerViewModel() :array {
+    public function getAddressPickerViewModel(): array {
         $json = $this->makeErrorHandledRequest('POST', 'api/', 'product/GetAddressPickerViewModel', null, null, true);
         return json_decode($json, true)['Elements'][0];
     }
 
-    public function setSelectedAddressPickerElement($payload) {
+    public function setSelectedAddressPickerElement($payload): void {
         $this->makeErrorHandledRequest('POST', 'api/', 'product/SetSelectedAddressPickerElement', null, $payload);
-        return ['ok'];
     }
 
     public function getConsumptionMeters(): array {
@@ -51,7 +50,7 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
         ];
     }
 
-    public function getConsumptionData(string $fileType, array $parameters):array
+    public function getConsumptionData(string $fileType, array $parameters): array
     {
         $data = $this->makeErrorHandledRequest('GET', 'api/', 'consumption/' . $fileType, $parameters,null, true);
 
