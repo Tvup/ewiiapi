@@ -15,4 +15,15 @@ composer require tvup/ewiiapi
 
 ### Example code
 ```
+require_once 'vendor/autoload.php';
+
+$ewiiApi = new Tvup\EwiiApi\EwiiApi();
+
+$ewiiApi->login('AN_EMAIL_ADDRESS','A_PASSWORD');
+
+$response = $ewiiApi->getConsumptionData('csv', '5153695', 1, 1, 1, 2, 0, 'KWH', '21517435');
+
+print_r($response);
+```
+
 
