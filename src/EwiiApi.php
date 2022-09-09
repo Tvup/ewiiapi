@@ -18,12 +18,15 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
         ]);
     }
 
-    public function getAddressData() {
+    public function getAddressPickerViewModel() {
         $json = $this->makeErrorHandledRequest('POST', 'api/', 'product/GetAddressPickerViewModel', null, null, true);
+        return json_decode($json, true)['Elements'][0];
+    }
+
+    public function setSelectedAddressPickerElement($payload) {
+        $json = $this->makeErrorHandledRequest('POST', 'api/', 'product/SetSelectedAddressPickerElement', null, $payload, true);
         $json = json_decode($json, true);
-        $installationNumber = $json['Elements'][0]['Installations'][0]['InstallationNumber'];
-        $consumerNumber = $json['Elements'][0]['Installations'][0]['ConsumerNumber'];
-        return ['installationNumber' => $installationNumber, 'consumerNumber' => $consumerNumber];
+        return ['ok'];
     }
 
     public function getConsumptionMeters() {

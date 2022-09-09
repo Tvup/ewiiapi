@@ -6,7 +6,9 @@ interface EwiiApiInterface
 {
     public function login(string $email, string $password);
 
-    public function getAddressData();
+    public function getAddressPickerViewModel();
+
+    public function setSelectedAddressPickerElement($payload);
 
     public function getConsumptionData(string $fileType, array $parameters) : array;
 }

@@ -149,10 +149,11 @@ class EwiiApiBase
         }
         if (null !== $payload) {
             return $this->client->request($verb, $url, [
+                'debug' => true,
                 'form_params' => $payload
             ]);
         } else {
-            return $this->client->request($verb, $url);
+            return $this->client->request($verb, $url, ['debug' => true]);
         }
     }
 
