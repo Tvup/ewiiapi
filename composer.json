@@ -1,0 +1,21 @@
+{
+    "name": "torbenit/ewiiapi",
+    "description": "API for getting consumption data as an Ewii customer",
+    "type": "library",
+    "require": {
+        "php": ">=7.1",
+        "guzzlehttp/guzzle": "^7.5"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "TorbenIT\\EwiiApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tvup",
+            "email": "tvupper@gmail.com"
+        }
+    ]
+}
