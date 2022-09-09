@@ -32,7 +32,7 @@ The flow has these steps:
 2. Get "AddressPickerViewModel" - a list of your addresses - probably only has one if you don't have products at multiple addresses
   * For each address is a list of installations. Again probably only one, but there shouldn't be much imagination to imagine that you could electricity and internet broadband or multiple electricity installations each with their own meter.
     * Pick "the one"
-3. Set "the one" with call to "setSelectedAddressPickerElement" - somehow this seems mandatory else the next request will fail ¯\_(ツ)_/¯
+3. Set "the one" with call to "setSelectedAddressPickerElement" - somehow this seems mandatory else the next request will fail `¯\_(ツ)_/¯`
 4. Get metadata for the meter
 5. Use some of the metadat to get the consumption data
 
