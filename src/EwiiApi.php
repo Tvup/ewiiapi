@@ -10,7 +10,7 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
         if('' == $email || '' == $password) {
             throw new EwiiApiException(['Email and password cannot be blank'], [], '1');
         }
-        return $this->makeErrorHandledRequest('POST', null, 'Login', null, [
+        $this->makeErrorHandledRequest('POST', null, 'Login', null, [
             'Email' => $email,
             'Password' => $password,
             'scAction' => 'EmailLogin',
@@ -18,18 +18,17 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
         ]);
     }
 
-    public function getAddressPickerViewModel() {
+    public function getAddressPickerViewModel() :array {
         $json = $this->makeErrorHandledRequest('POST', 'api/', 'product/GetAddressPickerViewModel', null, null, true);
         return json_decode($json, true)['Elements'][0];
     }
 
     public function setSelectedAddressPickerElement($payload) {
-        $json = $this->makeErrorHandledRequest('POST', 'api/', 'product/SetSelectedAddressPickerElement', null, $payload, true);
-        $json = json_decode($json, true);
+        $this->makeErrorHandledRequest('POST', 'api/', 'product/SetSelectedAddressPickerElement', null, $payload);
         return ['ok'];
     }
 
-    public function getConsumptionMeters() {
+    public function getConsumptionMeters(): array {
         $json = $this->makeErrorHandledRequest('GET', 'api/', 'consumption/meters', ['utility'=>'Electricity'], null, true);
         $json = json_decode($json, true);
         $installationNumber = $json[0]['Installation']['InstallationNumber'];

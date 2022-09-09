@@ -29,9 +29,12 @@ class EwiiApiBase
      */
     private $storage_path;
 
+    private bool $debug = false;
 
-    public function __construct()
+
+    public function __construct(bool $debug)
     {
+        $this->debug = $debug ? : false;
         $jar = null;
 
         if (function_exists('storage_path')) {
@@ -148,12 +151,16 @@ class EwiiApiBase
             $url = self::BASE_URL . $route . $endpoint . $parameters;
         }
         if (null !== $payload) {
-            return $this->client->request($verb, $url, [
-                'debug' => true,
+
+            $options = [
                 'form_params' => $payload
-            ]);
+            ];
+            if($this->debug) {
+                array_merge($options, ['debug' => true,]);
+            }
+            return $this->client->request($verb, $url, $options);
         } else {
-            return $this->client->request($verb, $url, ['debug' => true]);
+            return $this->client->request($verb, $url, $this->debug ? ['debug' => true] : null);
         }
     }
 
