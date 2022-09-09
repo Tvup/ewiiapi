@@ -92,6 +92,7 @@ class EwiiApiBase
                     return [];
                 }
             } catch (ClientException $e) {
+                var_dump($e->getCode(), $e->getMessage());
                 $exceptionBody = $e->getResponse()->getBody()->getContents();
                 $decodedExceptionBody = json_decode($exceptionBody, true);
                 $messages = [
@@ -115,11 +116,9 @@ class EwiiApiBase
                     );
                     $messages['Errors'] = $ewiiApiException->getErrors();
                     $messages['ErrorCode'] = $ewiiApiException->getCode();
-                    Log::critical(json_encode($messages));
                     throw $ewiiApiException;
                 } else {
                     $ewiiApiException = new EwiiApiException(['Unknown error: ' . $e->getMessage()], [], $e->getCode());
-                    Log::critical(json_encode($messages));
                     throw $ewiiApiException;
                 }
             }
