@@ -67,8 +67,8 @@ class EwiiApiBase
                 $decodedResponse = $this->decode($response->getBody()->getContents());
 
                 $errorCode = null;
-                if (isset($decodedResponse['messageId'])) {
-                    $errorCode = $decodedResponse['messageId'];
+                if (isset($decodedResponse['Message'])) {
+                    $errorCode = $decodedResponse['Message'];
                 }
 
                 if (isset($errorCode) && $errorCode !== 0) {
@@ -84,7 +84,6 @@ class EwiiApiBase
                     );
                     $messages['Errors'] = $ewiiApiException->getErrors();
                     $messages['ErrorCode'] = $ewiiApiException->getCode();
-                    Log::error(json_encode($messages));
                     throw $ewiiApiException;
                 }
                 if ($returnResponse) {
@@ -104,8 +103,8 @@ class EwiiApiBase
                 ];
 
                 $errorCode = null;
-                if (isset($decodedExceptionBody['messageId'])) {
-                    $errorCode = $decodedExceptionBody['messageId'];
+                if (isset($decodedExceptionBody['Message'])) {
+                    $errorCode = $decodedExceptionBody['Message'];
                 }
 
                 if (isset($errorCode) && $errorCode !== 0) {
