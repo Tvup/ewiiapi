@@ -4,6 +4,12 @@ namespace Tvup\EwiiApi;
 
 interface EwiiApiInterface
 {
+    /**
+     * Makes request to login
+     *
+     * @param string $email
+     * @param string $password
+     */
     public function login(string $email, string $password): void;
 
     public function getAddressPickerViewModel(): array;

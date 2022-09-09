@@ -162,6 +162,15 @@ class EwiiApiBase
         }
     }
 
+    /**
+     * Decode
+     *
+     * The intention was that decoding should happen here..
+     * NotYetImplemented
+     *
+     * @param string $getContents
+     * @return string
+     */
     private function decode(string $getContents)
     {
         return $getContents;
