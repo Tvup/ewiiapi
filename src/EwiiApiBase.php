@@ -12,6 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 class EwiiApiBase
 {
     const BASE_URL = 'https://selvbetjening.ewii.com/';
+    const COOKIE_FILENAME = 'ewii-cookies.json';
 
     /**
      * @var Client
@@ -33,7 +34,13 @@ class EwiiApiBase
             //NOP
         }
 
-        $jar = $jar ?: new FileCookieJar(storage_path() . '/cookies.json', true);
+        if (function_exists('storage_path')) {
+            $this->storage_path = storage_path();
+        } else {
+            $this->storage_path = '';
+        }
+
+        $jar = $jar ?: new FileCookieJar($this->storage_path . '/' . self::COOKIE_FILENAME, true);
 
         $this->client = new Client(array(
             'cookies' => $jar
@@ -158,10 +165,10 @@ class EwiiApiBase
     private function getCookieJarFromFile(): ?FileCookieJar
     {
         $jar = null;
-        $file = file_get_contents(storage_path() . '/cookies.json');
+        $file = file_get_contents($this->storage_path . '/' . self::COOKIE_FILENAME);
         $cookieData = json_decode($file);
         if ($cookieData) {
-            $jar = new FileCookieJar(storage_path() . '/cookies.json', true);
+            $jar = new FileCookieJar($this->storage_path . '/' . self::COOKIE_FILENAME, true);
             foreach ($cookieData as $cookie) {
                 //If there are multiple cookie data, you could filter according to your case
                 $cookie = json_decode(json_encode($cookie), TRUE);
