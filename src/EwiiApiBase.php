@@ -27,7 +27,7 @@ class EwiiApiBase
     /**
      * @var string
      */
-    private $storage_path = '';
+    private $storage_path = __DIR__;
 
 
     public function __construct()
@@ -42,7 +42,7 @@ class EwiiApiBase
         if (function_exists('storage_path')) {
             $this->storage_path = storage_path();
         } else {
-            $this->storage_path = '';
+            $this->storage_path = __DIR__;
         }
 
         $jar = $jar ?: new FileCookieJar($this->storage_path . '/' . self::COOKIE_FILENAME, true);
