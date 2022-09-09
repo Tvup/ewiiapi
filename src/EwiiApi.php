@@ -19,7 +19,7 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
     }
 
     public function getAddressData() {
-        return $this->makeErrorHandledRequest('POST', 'api', 'product/GetAddressPickerViewModel');
+        return $this->makeErrorHandledRequest('POST', 'api', 'product/GetAddressPickerViewModel', null, null);
     }
 
     public function getConsumptionData(string $fileType, string $installationNumber, int $consumerNumber, int $meterId, int $counterId, int $type, int $utility, string $unit, string $factoryNumber):array
