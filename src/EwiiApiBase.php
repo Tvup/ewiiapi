@@ -38,7 +38,7 @@ class EwiiApiBase
         if (function_exists('storage_path')) {
             $this->storage_path = storage_path();
         } else {
-            $this->storage_path = dirname(__DIR__);
+            $this->storage_path = getcwd();
         }
 
         try {
