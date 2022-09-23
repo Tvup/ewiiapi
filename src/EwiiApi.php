@@ -53,19 +53,13 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
     public function getConsumptionData(string $fileType, array $parameters): array
     {
         $data = $this->makeErrorHandledRequest('GET', 'api/', 'consumption/' . $fileType, $parameters,null, true);
-
-        $dataArray = explode(PHP_EOL, $data);
-
-        array_shift($dataArray); //First line is "sep=" for some reason
-        array_shift($dataArray); //Second line is table headers
-
+        $data = str_getcsv($data,"\n"); //parse the rows
+        array_shift($data); //First line is "sep=" for some reason
+        array_shift($data); //Second line is table headers
         $returnArray = array();
-
-        foreach ($dataArray as $line) {
-            $lineArray = explode(';', $line);
-            if(count($lineArray)>1) {
-                array_push($returnArray, [$lineArray[0] => $lineArray[1]]);
-            }
+        foreach($data as $row) {
+            $row = str_getcsv($row, ";"); //parse the items in rows
+            $returnArray[str_replace(' ','T',$row[0]).':00'] = str_replace(',','.',$row[1]);
         }
 
         return $returnArray;
