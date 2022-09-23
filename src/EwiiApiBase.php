@@ -6,6 +6,7 @@ use ErrorException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\FileCookieJar;
 use GuzzleHttp\Cookie\SetCookie;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\TransferException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -30,6 +31,8 @@ class EwiiApiBase
     private $storage_path;
 
     private bool $debug = false;
+    private string $email;
+    private string $password;
 
     public function __construct()
     {
@@ -61,6 +64,8 @@ class EwiiApiBase
                 //echo ' **** ENDPOINT : ' . $endpoint . ' *******' . PHP_EOL;
                 if ($endpoint == 'Login' && $this->cachedCookie) {
                     //echo 'Saved cookie' . PHP_EOL;
+                    $this->email = $payload['Email'];
+                    $this->password = $payload['Password'];
                     return [];
                 }
 
@@ -123,14 +128,32 @@ class EwiiApiBase
                 }
             }
         } catch (TransferException $e) {
+            $exceptionBody = $e->getResponse()->getBody()->getContents();
             $messages = [
                 'Verb' => $verb,
                 'Endpoint' => $endpoint,
                 'Payload' => $payload,
                 'Message' => $e->getMessage(),
+                'Response' => $exceptionBody,
                 'Code' => $e->getCode(),
                 'Class' => get_class($e)
             ];
+
+            //Retry with without data-access token
+            if ($e->getCode() == 500 && $this->cachedCookie) {
+                //Clear data-access token
+                $this->cachedCookie = false;
+                //Login
+                $this->makeErrorHandledRequest('POST', null, 'Login', null, [
+                    'Email' => $this->email,
+                    'Password' => $this->password,
+                    'scAction' => 'EmailLogin',
+                    'scController' => 'Auth',
+                ]);
+                //Retry
+                return $this->makeErrorHandledRequest($verb, $route, $endpoint, $parameters, $payload, $returnResponse);
+            }
+
             $ewiiApiException = new EwiiApiException($messages, [], $e->getCode());
             throw $ewiiApiException;
         }
