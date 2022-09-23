@@ -50,6 +50,11 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
         ];
     }
 
+    public function getConsumptionMetersRaw(): array {
+        $json = $this->makeErrorHandledRequest('GET', 'api/', 'consumption/meters', ['utility'=>'Electricity'], null, true);
+        return json_decode($json, true);;
+    }
+
     public function getConsumptionData(string $fileType, array $parameters): array
     {
         $data = $this->makeErrorHandledRequest('GET', 'api/', 'consumption/' . $fileType, $parameters,null, true);

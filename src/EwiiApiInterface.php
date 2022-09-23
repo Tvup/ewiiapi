@@ -18,5 +18,7 @@ interface EwiiApiInterface
 
     public function getConsumptionMeters(): array;
 
+    public function getConsumptionMetersRaw(): array;
+
     public function getConsumptionData(string $fileType, array $parameters): array;
 }
