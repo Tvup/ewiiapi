@@ -16,4 +16,22 @@ class EwiiRequestMade
         $this->verb = $verb;
         $this->endpoint = $endpoint;
     }
+
+    /**
+     * @return string
+     */
+    public function getVerb(): string
+    {
+        return $this->verb;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEndpoint(): string
+    {
+        return $this->endpoint;
+    }
+
+
 }
