@@ -129,18 +129,19 @@ class EwiiApiBase
             }
         } catch (TransferException $e) {
             $exceptionBody = $e->getResponse()->getBody()->getContents();
+            $code = $e->getCode();
             $messages = [
                 'Verb' => $verb,
                 'Endpoint' => $endpoint,
                 'Payload' => $payload,
                 'Message' => $e->getMessage(),
                 'Response' => $exceptionBody,
-                'Code' => $e->getCode(),
+                'Code' => $code,
                 'Class' => get_class($e)
             ];
 
             //Retry with without data-access token
-            if ($e->getCode() == 500 && $this->cachedCookie) {
+            if ($code == 500 && $this->cachedCookie) {
                 //Clear data-access token
                 $this->cachedCookie = false;
                 //Login
@@ -154,8 +155,8 @@ class EwiiApiBase
                 return $this->makeErrorHandledRequest($verb, $route, $endpoint, $parameters, $payload, $returnResponse);
             }
 
-            event(new EwiiRequestFailed($verb, $endpoint, $e->getCode()));
-            $ewiiApiException = new EwiiApiException($messages, [], $e->getCode());
+            event(new EwiiRequestFailed($verb, $endpoint, $code));
+            $ewiiApiException = new EwiiApiException($messages, [], $code);
             throw $ewiiApiException;
         }
     }
