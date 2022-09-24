@@ -179,8 +179,10 @@ class EwiiApiBase
             if($this->debug) {
                 array_merge($options, ['debug' => true,]);
             }
+            event(new EwiiRequestMade($verb, $endpoint));
             return $this->client->request($verb, $url, $options);
         } else {
+            event(new EwiiRequestMade($verb, $endpoint));
             return $this->client->request($verb, $url, $this->debug ? ['debug' => true] : []);
         }
     }
