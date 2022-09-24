@@ -154,7 +154,7 @@ class EwiiApiBase
                 return $this->makeErrorHandledRequest($verb, $route, $endpoint, $parameters, $payload, $returnResponse);
             }
 
-            event(new EwiiRequestFailed($verb, $endpoint));
+            event(new EwiiRequestFailed($verb, $endpoint, $e->getCode()));
             $ewiiApiException = new EwiiApiException($messages, [], $e->getCode());
             throw $ewiiApiException;
         }
