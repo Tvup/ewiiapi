@@ -220,11 +220,20 @@ class EwiiApiBase
     private function getCookieJarFromFile(): ?FileCookieJar
     {
         $jar = null;
-        $file = file_get_contents($this->storage_path . '/' . ($this->md5EwiiCredentials ? $this->md5EwiiCredentials . '-' : '') . self::COOKIE_FILENAME);
+        if(isset($this->md5EwiiCredentials)) {
+            $file = file_get_contents($this->storage_path . '/' . ($this->md5EwiiCredentials ? $this->md5EwiiCredentials . '-' : '') . self::COOKIE_FILENAME);
+        } else {
+            $file = file_get_contents($this->storage_path . '/' . self::COOKIE_FILENAME);
+        }
 
         $cookieData = json_decode($file);
         if ($cookieData) {
-            $jar = new FileCookieJar($this->storage_path . '/' . ($this->md5EwiiCredentials ? $this->md5EwiiCredentials . '-' : '') . self::COOKIE_FILENAME, true);
+            if(isset($this->md5EwiiCredentials)) {
+                $jar = new FileCookieJar($this->storage_path . '/' . ($this->md5EwiiCredentials ? $this->md5EwiiCredentials . '-' : '') . self::COOKIE_FILENAME, true);
+            } else {
+                $jar = new FileCookieJar($this->storage_path . '/' . self::COOKIE_FILENAME, true);
+            }
+
             foreach ($cookieData as $cookie) {
                 //If there are multiple cookie data, you could filter according to your case
                 $cookie = json_decode(json_encode($cookie), TRUE);
