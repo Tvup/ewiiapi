@@ -230,7 +230,7 @@ class EwiiApiBase
         return $jar;
     }
 
-    public function clearCookieFile()
+    protected function clearCookieFile()
     {
         $this->jar->clear();
     }

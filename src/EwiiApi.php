@@ -16,8 +16,14 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
             'scAction' => 'EmailLogin',
             'scController' => 'Auth',
         ], true);
-        if(strpos($response, 'Der var en fejl i dine kundeoplysninger.')!==false || strpos($response, 'din konto i 15 minutter, pga. for mange fejlede')!==false) {
+        if(strpos($response, 'Der var en fejl i dine kundeoplysninger.')!==false) {
             $messages = ['Email and password wasn\'t accepted by Ewii'];
+            $this->clearCookieFile();
+            throw new EwiiApiException($messages, [], '2');
+        }
+        if(strpos($response, 'din konto i 15 minutter, pga. for mange fejlede')!==false) {
+            $messages = ['Account locked for 15 minutes'];
+            $this->clearCookieFile();
             throw new EwiiApiException($messages, [], '2');
         }
     }
