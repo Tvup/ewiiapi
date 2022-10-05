@@ -229,6 +229,11 @@ class EwiiApiBase
         return $jar;
     }
 
+    protected function clearCookieFile(): bool
+    {
+        return unlink($this->storage_path . '/' . self::COOKIE_FILENAME);
+    }
+
     /**
      * @param bool $debug
      */

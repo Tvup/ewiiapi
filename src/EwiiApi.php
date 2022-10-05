@@ -16,8 +16,13 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
             'scAction' => 'EmailLogin',
             'scController' => 'Auth',
         ], true);
-        if(strpos($response, 'Der var en fejl i dine kundeoplysninger.')===false) {
-            throw new EwiiApiException(['Email and password wasn\'t accepted by Ewii'], [], '2');
+        if(strpos($response, 'Der var en fejl i dine kundeoplysninger.')!==false) {
+            $cookieFileDeleteResult = $this->clearCookieFile();
+            $messages = ['Email and password wasn\'t accepted by Ewii'];
+            if(!$cookieFileDeleteResult) {
+                $messages = array_merge($messages, ['Cookiefile cound\'t be deleted']);
+            }
+            throw new EwiiApiException($messages, [], '2');
         }
     }
 
