@@ -60,7 +60,13 @@ class EwiiApiBase
             //NOP
         }
 
-        $this->jar = $jar ?: new FileCookieJar($this->storage_path . '/' . ($this->md5EwiiCredentials ? $this->md5EwiiCredentials . '-' : '') . self::COOKIE_FILENAME, true);
+        if(isset($this->md5EwiiCredentials)) {
+            $path = $this->storage_path . '/' . ($this->md5EwiiCredentials ? $this->md5EwiiCredentials . '-' : '') . self::COOKIE_FILENAME;
+        } else {
+            $path = $this->storage_path . '/' . self::COOKIE_FILENAME;
+        }
+
+        $this->jar = $jar ?: new FileCookieJar($path, true);
 
         $this->client = new Client(array(
             'cookies' => $this->jar
