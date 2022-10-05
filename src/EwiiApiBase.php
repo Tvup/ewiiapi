@@ -35,14 +35,22 @@ class EwiiApiBase
     private string $password;
     private FileCookieJar $jar;
 
-    public function __construct()
+    public function __construct($ewiiCredentials = null)
     {
         $jar = null;
 
         if (function_exists('storage_path')) {
-            $this->storage_path = storage_path();
+            $this->storage_path = storage_path() . '/ewii_cookies';
+
+            if(!is_dir($this->storage_path)) {
+                mkdir($this->storage_path);
+            }
         } else {
             $this->storage_path = getcwd();
+        }
+
+        if($ewiiCredentials) {
+            $this->md5EwiiCredentials = md5($ewiiCredentials['email'].$ewiiCredentials['password']);
         }
 
         try {
@@ -51,7 +59,7 @@ class EwiiApiBase
             //NOP
         }
 
-        $this->jar = $jar ?: new FileCookieJar($this->storage_path . '/' . self::COOKIE_FILENAME, true);
+        $this->jar = $jar ?: new FileCookieJar($this->storage_path . '/' . ($this->md5EwiiCredentials ? $this->md5EwiiCredentials . '-' : '') . self::COOKIE_FILENAME, true);
 
         $this->client = new Client(array(
             'cookies' => $this->jar
@@ -211,10 +219,11 @@ class EwiiApiBase
     private function getCookieJarFromFile(): ?FileCookieJar
     {
         $jar = null;
-        $file = file_get_contents($this->storage_path . '/' . self::COOKIE_FILENAME);
+        $file = file_get_contents($this->storage_path . '/' . ($this->md5EwiiCredentials ? $this->md5EwiiCredentials . '-' : '') . self::COOKIE_FILENAME);
+
         $cookieData = json_decode($file);
         if ($cookieData) {
-            $jar = new FileCookieJar($this->storage_path . '/' . self::COOKIE_FILENAME, true);
+            $jar = new FileCookieJar($this->storage_path . '/' . ($this->md5EwiiCredentials ? $this->md5EwiiCredentials . '-' : '') . self::COOKIE_FILENAME, true);
             foreach ($cookieData as $cookie) {
                 //If there are multiple cookie data, you could filter according to your case
                 $cookie = json_decode(json_encode($cookie), TRUE);
