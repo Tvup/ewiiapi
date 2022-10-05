@@ -34,6 +34,7 @@ class EwiiApiBase
     private string $email;
     private string $password;
     private FileCookieJar $jar;
+    private string $md5EwiiCredentials;
 
     public function __construct($ewiiCredentials = null)
     {
