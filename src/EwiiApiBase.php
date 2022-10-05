@@ -51,7 +51,7 @@ class EwiiApiBase
         }
 
         if($email && $password) {
-            $this->md5EwiiCredentials = md5($email,$password);
+            $this->md5EwiiCredentials = md5($email.$password);
         }
 
         try {
