@@ -10,12 +10,15 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
         if('' == $email || '' == $password) {
             throw new EwiiApiException(['Email and password cannot be blank'], [], '1');
         }
-        $this->makeErrorHandledRequest('POST', null, 'Login', null, [
+        $response = $this->makeErrorHandledRequest('POST', null, 'Login', null, [
             'Email' => $email,
             'Password' => $password,
             'scAction' => 'EmailLogin',
             'scController' => 'Auth',
-        ]);
+        ], true);
+        if(strpos($response, 'Der var en fejl i dine kundeoplysninger.')===false) {
+            throw new EwiiApiException(['Email and password wasn\'t accepted by Ewii'], [], '2');
+        }
     }
 
     public function getAddressPickerViewModel(): array {
