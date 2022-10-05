@@ -33,6 +33,7 @@ class EwiiApiBase
     private bool $debug = false;
     private string $email;
     private string $password;
+    private FileCookieJar $jar;
 
     public function __construct()
     {
@@ -50,10 +51,10 @@ class EwiiApiBase
             //NOP
         }
 
-        $jar = $jar ?: new FileCookieJar($this->storage_path . '/' . self::COOKIE_FILENAME, true);
+        $this->jar = $jar ?: new FileCookieJar($this->storage_path . '/' . self::COOKIE_FILENAME, true);
 
         $this->client = new Client(array(
-            'cookies' => $jar
+            'cookies' => $this->jar
         ));
     }
 
@@ -229,9 +230,9 @@ class EwiiApiBase
         return $jar;
     }
 
-    protected function clearCookieFile(): bool
+    public function clearCookieFile(): bool
     {
-        return unlink($this->storage_path . '/' . self::COOKIE_FILENAME);
+        $this->jar->clear();
     }
 
     /**
