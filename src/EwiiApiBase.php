@@ -36,7 +36,7 @@ class EwiiApiBase
     private FileCookieJar $jar;
     private string $md5EwiiCredentials;
 
-    public function __construct($ewiiCredentials = null)
+    public function __construct($email=null, $password=null)
     {
         $jar = null;
 
@@ -50,8 +50,8 @@ class EwiiApiBase
             $this->storage_path = getcwd();
         }
 
-        if($ewiiCredentials) {
-            $this->md5EwiiCredentials = md5($ewiiCredentials['email'].$ewiiCredentials['password']);
+        if($email && $password) {
+            $this->md5EwiiCredentials = md5($email,$password);
         }
 
         try {
