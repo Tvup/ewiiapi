@@ -2,6 +2,8 @@
 
 namespace Tvup\EwiiApi;
 
+use Carbon\Carbon;
+
 class EwiiApi extends EwiiApiBase implements EwiiApiInterface
 {
 
@@ -76,7 +78,9 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
         $returnArray = array();
         foreach($data as $row) {
             $row = str_getcsv($row, ";"); //parse the items in rows
-            $returnArray[str_replace(' ','T',$row[0]).':00'] = str_replace(',','.',$row[1]);
+            $hour = str_replace(' ', 'T', $row[0]) . ':00';
+            $hour = Carbon::parse($hour)->format('c');
+            $returnArray[$hour] = str_replace(',','.',$row[1]);
         }
 
         return $returnArray;
