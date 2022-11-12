@@ -34,7 +34,7 @@ class EwiiApi extends EwiiApiBase implements EwiiApiInterface
 
     public function getAddressPickerViewModel(): array {
         $json = $this->makeErrorHandledRequest('POST', 'api/', 'product/GetAddressPickerViewModel', null, null, true);
-        return json_decode($json, true)['Elements'][0];
+        return json_decode($json, true)['Elements'];
     }
 
     public function setSelectedAddressPickerElement($payload): void {
